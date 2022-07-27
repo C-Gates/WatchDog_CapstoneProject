@@ -1,0 +1,53 @@
+<html>
+<head>
+	<title>Watch Dog</Title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+	<link rel="shortcut icon" href="{{url_for('static',filename='img/logo.png')}}"/>
+	<script src="{{url_for('static', filename='index.js')}}"></script>
+</head>
+<body>
+	<nav class="navbar navbar-main">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="{{ url_for('home') }}"><img src="{{url_for('static',filename='img/watchdog.png')}}" alt="watchdog"  style="height: 50px; margin-right: 15px; border-radius: 5px;"></a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a class="navbar-text-active" href="{{ url_for('home') }}">Home</a></li>
+				<li><a class="navbar-text" href="{{ url_for('watchlist_watch_list') }}">Watch List</a></li>
+				<li><a class="navbar-text" href="{{ url_for('portfolios') }}">Portfolios</a></li>
+				<li><a class="navbar-text" href="{{ url_for('news') }}">News</a></li>
+				<li><a class="navbar-text" href="{{ url_for('settings') }}">Settings</a></li>
+			</ul>
+			<form class="form-inline my-2 my-lg-0" action="{{ url_for('stock_results_stock_search') }}">
+				<input class="form-control mr-sm-2" type="search" placeholder="Search for Stocks" name="stock_search"> 
+				<button class="btn btn-secondary my-2 my-sm-0" type="submit">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+			</form>
+		</div>
+	</nav>
+
+
+	<div class="jumbotron text-center">
+		<button><a href = "{{ url_for('portfolios') }}" class="go-back">&laquo; Go Back</a></button>
+    </div>
+    <div style="font-size:30px; padding-left:10%;">
+    <p>In order to import your current portfolio spreadsheet, please follow the instructions below:</p>
+    <ol style="padding-left:5%;">
+        <li>Download the template spreadsheet from <a href="https://doc-08-5g-docs.googleusercontent.com/docs/securesc/h3163214fd3eepdm4d6qsmm0l29p6u1o/t5oln5frsdu46a2tosk40qe2is4rsm09/1637216475000/04949984571807372210/15317493151721462582Z/18f_rj7QS0FhUaHkGr0eVqijo2R9_iedq?e=download">here.</a> </li>
+        <li>Add the stock infromation to the portfolio spreadsheet in the same format as provided.<br> Vlookup (<a href="https://support.microsoft.com/en-us/office/vlookup-function-0bbc8083-26fe-4963-8ab8-93a18ad188a1">guide here</a>) can be used to speed up the process.</li>
+        <li>Import your portfolio by uploading the CSV here ->
+			<form action="{{ url_for('portfolios', import_portfolio = 2) }}" method="post" enctype = "multipart/form-data">
+			<input type="file" name="myFile" accept=".csv" required>
+			<button type="submit" class="btn btn-primary">Upload</button>
+		  	</form>
+		</li>
+    </ol>
+    </div>
+
+    
+	  
+</body>
+</html>

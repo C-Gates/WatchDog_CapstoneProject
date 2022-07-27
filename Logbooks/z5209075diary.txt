@@ -1,0 +1,43 @@
+COMP3900 Diary 
+z5209075
+
+Week 1 
+I formed and met my team in our first lab. We discussed the projects and decided on creating a stock portfolio management system. We brainstormed the main functionalities required, as well as some novel ideas for functionalities, and created user epics and user stories. 
+I came back during the week to add more user stories and acceptance criteria, and did some research into the Yahoo finance and Commsec platforms to see what features they have. 
+
+Week 2 
+Team meeting where we discussed our 8 project functionalities/epic stories. We assigned these to everyone to complete the user stories and acceptance criteria for, and put onto the Jira board. We also divided tasks of background research for the first assignment, wire frames, and creating a survey to send to collect user feedback on existing stock management platforms. 
+
+Week 3 
+Wednesday - Team meeting, everyone went through their user stories, and we each gave feedback, suggestions and improvements. I put my user stories into the document. 
+I created a colour palette to use for the wireframes and continued to edit the mockup.
+Thursday - In class, we decided which user stories we were going to put in the first sprint. 
+Saturday - I worked on the wireframe/mockup and flow diagram. We went through the changes we each made to our user stories, as well as the background, flow diagram, and system architecture. 
+
+Week 4
+Wed Meeting - we discussed who would do which user stories for this sprint, I took on the log on/sign up stories. We made an ER diagram for our db, and I wrote a schema. I spent time researching various flask packages to handle routes and the database. I set up some basic files for our project. 
+
+Week 5
+Researched different stock apis that might work to use. 
+Began functions for watch list, user adding stocks and removing stocks to it, and retrieving stock data for the watch list. 
+Thurs - did project demo
+
+Week 6 
+Monday - team meeting for sprint 1 reflection, discussed ideas to improve. 
+Wed - team meeting, discussed everyones progress on sprint 2
+Thurs - worked on writing user login data to database, and using user id to fetch watch list
+Sun - Team meeting discussing where everyone was up to, and how we were implementing our improvements from last sprint. I finished the watch list functions, and started using a new API to get stock information for the homepage. 
+
+Week 7 - made summary function for watch list to be used by the homepage. 
+
+Week 8 
+New api for watch list. Edited stock class for new api. Starting on front end for watchlist. 
+Finished portfolio functions and debugged, integrated with id check and database. 
+Started portfolio historical summary function 
+
+Week 9 
+Retrospective meeting
+Delete function for portfolio. Edited html table for watch list front end. Added chart.js to make historical watch list chart. Added tabulator js to improve watch list table. 
+
+Week 10
+Changed homepage to get highest moving stock data through javascript functions to improve loading time. Added better js stock tables to portfolio and homepage. Added to html to improve watch list. Project demo and project report completed and submitted. 

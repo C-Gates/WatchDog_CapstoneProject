@@ -1,0 +1,221 @@
+<html>
+<!--<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>-->
+<head>
+	<title>Watch Dog</Title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+	<link rel="shortcut icon" href="{{url_for('static',filename='img/logo.png')}}"/>
+	
+</head>
+<body>
+	<nav class="navbar navbar-main">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="{{ url_for('home') }}"><img src="{{url_for('static',filename='img/watchdog.png')}}" alt="watchdog"  style="height: 50px; margin-right: 15px; border-radius: 5px;"></a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a class="navbar-text-active" href="{{ url_for('home') }}">Home</a></li>
+				<li><a class="navbar-text" href="{{ url_for('watchlist_watch_list') }}">Watch List</a></li>
+				<li><a class="navbar-text" href="{{ url_for('portfolios') }}">Portfolios</a></li>
+				<li><a class="navbar-text" href="{{ url_for('news') }}">News</a></li>
+				<li><a class="navbar-text" href="{{ url_for('settings') }}">Settings</a></li>
+			</ul>
+			<form class="form-inline my-2 my-lg-0" action="{{ url_for('stock_results_stock_search') }}">
+				<input class="form-control mr-sm-2" type="search" placeholder="Search for Stocks" name="stock_search"> 
+				<button class="btn btn-secondary my-2 my-sm-0" type="submit">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+			</form>
+		</div>
+	</nav> 
+
+
+	<div class="jumbotron text-center">
+
+
+		<h1>Watch List</h1>
+		
+		<form action='{{ url_for("watchlist_watch_list")}}' enctype="multipart/form-data" onsubmit="check(event)">
+			<label for="stock">Add to watch list: </label>
+			<input type="text" class="form-control str-input" id="stock" name="stock" placeholder="AAPL or CBA.AX (.AX for ASX)" required></input>
+			<button type="submit" class="btn btn-primary" formmethod="post">Submit</button>
+		</form>
+	</div>
+
+	<div style="margin-left: 20px;">
+		<button class="btn btn-primary" onclick=location.reload();>Reset View</button>
+
+		<!-- Display buttons for each user created view. Can select view or delete it-->
+		{% for view in views %}
+
+			<div class="dropdown">
+				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{ view }}
+				<span class="caret"></span></button>
+				<ul class="dropdown-menu">
+					<li><button class="dropdown-item" onclick="updatetable('{{ view }}')">View</button></li>
+					<li><button class="dropdown-item" onclick="deleteView('{{ view }}')">Delete</button></li>
+				</ul>
+			</div>
+		{% endfor %}
+	</div>
+
+	<!-- Store variables to generate stock table to pass to Javascript -->
+	<input type="hidden" id="stockinfo" name="variable" value="{{ stock_info_list2|safe }}" > </input>
+	<input type="hidden" id="stockdetails" name="variable" value="{{ details }}" > </input>
+
+	<!-- Generate stock info table using the Tabulator package -->
+	<script
+	src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<!--<link href="https://unpkg.com/tabulator-tables@5.0.7/dist/css/tabulator.min.css" rel="stylesheet">-->
+	<link href="{{url_for('static',filename='css/tabulator.min.css')}}" rel="stylesheet">
+	<script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.0.7/dist/js/tabulator.min.js"></script>
+	<div id="stock-table" style="margin-top: 3px;" class="stockinfotable"></div>
+
+	<script type="text/javascript" src="{{url_for('static', filename='wl_table.js')}}"></script>
+
+
+	<!-- Buttons for changing graph time period displayed -->
+	<div style="margin: auto; width: 310px;">
+		<button type="button" class="btn btn-primary watch-button" onclick="oneweek();">1 Week  </button> 
+		<button type="button" class="btn btn-primary watch-button" onclick="onemonth();">1 Month  </button> 
+		<button type="button" class="btn btn-primary watch-button" onclick="oneyear();">1 Year  </button>
+	</div>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+	<!-- Storing variables to pass to Javascript -->
+	<input type="hidden" id="myVar" name="variable" value="{{ historyX }}" > </input>
+	<input type="hidden" id="myVar2" name="variable2" value="{{ historyY }}" >  </input>
+
+	<canvas id="myChart" style="width:100%;max-width:600px" class="stockgraph"></canvas>
+
+	<!-- Javascript using Chart.js library to construct stock performance for last week/month/year -->
+	<script type="text/javascript" src="{{url_for('static', filename='wl_chart.js')}}"></script>
+
+	<!-- Checkbox form to create new Watchlist View by selecting details -->
+	<div style="margin-left: 5%;">
+
+		<div class="watchlistviews">
+			<p>Create New View Below:</p>
+			<label for="view_name">View Name: </label>
+			<input type="text" class="form-control str-input" id="view_name" name="view_name" placeholder="My New View" required>
+			
+			<div>
+				<form>
+				<table width="80%">
+					<colgroup>
+					<tr>
+						<td>
+							<input type="checkbox" id="name" name="checkbox" value="name">
+							<label for="name">Name</label>
+						</td>
+						<td>
+							<input type="checkbox" id="market" name="checkbox" value="market">
+							<label for="name">Market</label>
+						</td>
+						<td>
+							<input type="checkbox" id="open" name="checkbox" value="open">
+							<label for="name">Open</label>
+						</td>
+						<td>
+							<input type="checkbox" id="close" name="checkbox" value="close">
+							<label for="name">Close</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="checkbox" id="volume" name="checkbox" value="volume">
+							<label for="name">Volume</label>
+						</td>
+						<td>
+							<input type="checkbox" id="price" name="checkbox" value="price">
+							<label for="name">Price</label>
+						</td>
+						<td>
+							<input type="checkbox" id="currency" name="checkbox" value="currency">
+							<label for="name">Currency</label>
+						</td>
+						<td>
+							<input type="checkbox" id="change" name="checkbox" value="change">
+							<label for="name">Change</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="checkbox" id="change_perc" name="checkbox" value="change_perc">
+							<label for="name">Change Percentage</label>
+						</td>
+						<td>
+							<input type="checkbox" id="bid" name="checkbox" value="bid">
+							<label for="name">Bid</label>
+						</td>
+
+					</tr>
+					</colgroup>
+				</table>
+				</form>
+			</div>
+
+			<script type='text/javascript' src="{{url_for('static', filename='view.js')}}"></script>
+			<div>
+				<button type="submit" class="btn btn-primary" onclick="create_view();">Create View</button>
+			</div>
+
+			
+		</div>
+
+		<!-- Table summarising full name of user stocks and function to remove them from Watch List-->
+		<table width="40%" style="margin: auto">
+            <colgroup>
+                <tr>
+                    <th>Stock Code</th>
+                    <th>Name</th>
+                    <th>Remove Stock</th>
+                </tr>
+			{% for stock in stock_info_list %}
+				<tr>
+					{% if stock['code'][-3:] == ".AX" %}
+						<th><a href = "{{url_for('ASX_stock_summary', symbol = stock['code'][:-3])}}">{{ stock['code'] }}</a></th>
+					{% else %}
+						<th><a href = "{{url_for('NASDAQ_stock_summary', symbol = stock['code'])}}">{{ stock['code'] }}</a></th>
+					{% endif %}
+					<td>{{ stock["name"] }}</td> 
+
+					<td><form><button type = "submit" class="btn btn-primary tabled-button" style="margin-bottom: 0px;"formmethod="post" formaction="{{ url_for( 'watchlist_watch_list', symbol = stock['code'], delete = 'TRUE') }}">Remove</button></form></td>
+				</tr>
+			{% endfor %}
+			</colgroup>
+		
+		</table>
+	</div>
+
+
+	<!-- This function ensures that the user enters a distinct name for new stock in watch list.-->
+	<script>
+			const check = (e) => {
+				var xhr = new XMLHttpRequest();
+				const form = new FormData(e.target);
+				const code = form.get("stock");
+				xhr.open("GET", "http://localhost:5000/check_stock?code=" + code, true);
+				xhr.responseType = "JSON";
+				xhr.onload = function(e) 
+				{
+					var arrOfStrings = JSON.parse(xhr.response);
+					if (arrOfStrings == "False") 
+					{
+						alert("This stock does not seem to exist.")
+						return false
+					}
+				}
+				xhr.send();
+				return false
+			};
+		</script>
+		
+
+</body>
+</html>

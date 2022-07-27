@@ -1,0 +1,94 @@
+<html>
+<head>
+	<title>Watch Dog</Title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+	<link rel="shortcut icon" href="{{url_for('static',filename='img/logo.png')}}"/>
+	
+</head>
+<body>
+	<nav class="navbar navbar-main">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="{{ url_for('home') }}"><img src="{{url_for('static',filename='img/watchdog.png')}}" alt="watchdog"  style="height: 50px; margin-right: 15px; border-radius: 5px;"></a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a class="navbar-text-active" href="{{ url_for('home') }}">Home</a></li>
+				<li><a class="navbar-text" href="{{ url_for('watchlist_watch_list') }}">Watch List</a></li>
+				<li><a class="navbar-text" href="{{ url_for('portfolios') }}">Portfolios</a></li>
+				<li><a class="navbar-text" href="{{ url_for('news') }}">News</a></li>
+				<li><a class="navbar-text" href="{{ url_for('settings') }}">Settings</a></li>
+			</ul>
+			<form class="form-inline my-2 my-lg-0" action="{{ url_for('stock_results_stock_search') }}">
+				<input class="form-control mr-sm-2" type="search" placeholder="Search for Stocks" name="stock_search"> 
+				<button class="btn btn-secondary my-2 my-sm-0" type="submit">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+			</form>
+		</div>
+	</nav>
+	<div class="jumbotron text-center">
+		<h1>{{ name }} - Information Page ({{ code }})</h1>
+		<p>{{ market }} Market</p>
+		
+		{% if session is not none %}
+		<form><button type = "submit" class="btn btn-primary" formmethod="post" formaction="{{url_for(request.endpoint, symbol = code, add = 'watchlist')}}">Add to watch list</button></form>
+			{% if portfolios|length > 0 %}
+			<form action="{{url_for(request.endpoint, symbol = code, add = 'portfolio')}}">
+				<label for="num">I want to add </label>
+				<input class="form-control num-input" type="number" min="0" id="num" name="num" placeholder=50 required></input>
+				<label for="num">of {{ code }} to</label>
+				<select name="portfolio" id="portfolio">
+					{% for p in portfolios %}
+						<option>{{ p[0] }}</option> 
+					{% endfor %}
+				</select>
+				<label for="num"> portfolio. I bought it at $</label>
+				<input class="form-control num-input" type="number" min="0" id="price" name="price" placeholder=50 required></input>
+				<label for="num">{{ currency }}.</label>
+				<button type="submit" class="btn btn-primary" formmethod="post">Add</button>
+			</form>
+			{% else %}
+			<p>Create a
+			<a href="{{url_for('portfolios')}}">portfolio</a> to add this stock to it!</p>
+			
+			{% endif %}
+
+		{% else %}
+		<p>Please log in to add this stock to your watchlist or portfolios.</p>
+		{% endif %}
+		
+	  </div>
+	
+	<table style="width:40%; margin:auto">
+	<tr>
+		<th>Price</th>
+		<td>${{ price }} {{ currency }}</td>
+	</tr>
+	<tr>
+		<th>Open</th>
+		<td>${{ open }} {{ currency }}</td>
+	</tr>
+	<tr>
+		<th>Previous Close</th>
+		<td>${{ close }} {{ currency }}</td>
+	</tr>
+	<tr>
+		<th>Market Cap</th>
+		{% if market_cap == "N/A" %}
+			<td>{{ market_cap }}</td>
+		{% else %}
+			<td>${{ market_cap }} {{ currency }}</td>
+		{% endif %}
+		
+	</tr>
+	<tr>
+		<th>Today's Volume</th>
+		<td>{{ volume }}</td>
+	</tr>
+	
+	</table>
+	  
+</body>
+</html>

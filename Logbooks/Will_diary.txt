@@ -1,0 +1,11 @@
+Work
+
+Week 2: Brainstorming, draft user story 1 and 3, draft system architecture with Simon
+Week 3: Finalised User story 1 and 3. Finalised system architecture with Simon
+
+Sprint 1: Main focus was to get login working. This was done through integrating with the Auth0 API
+Sprint 2: Main focus was to get email alerts working. 3 alerts successfully working. Done by integrating with Sendgrid
+          Take Profit, Stop Loss, Percentage Change email working. Need to add to database still. Also did some extra work tidying up login
+          and login token stuff
+Sprint 3: Main focus was to get all email features working. Email alerts are saved in db, unsubscribe added and 
+          market summary added, uses newsAPI. Also did some additional work on portfolio pages

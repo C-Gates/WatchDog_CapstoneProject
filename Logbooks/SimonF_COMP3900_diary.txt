@@ -1,0 +1,7 @@
+Week 1 - Created team name and assigned roles. Planned meeting times. Chose a project and brainstormed some features and user stories
+Week 2 - I created 2 user stories that one of which was later removed for more important features.
+Week 3 - Improved my user story/ acceptance criteria draft for the Stock Summary page. 
+Began on the System architecture diagram with Will and wrote descriptions for my assigned features. Will was assigned the other half.
+Sprint 1 - Made front end for log-in, register, home navigation - had difficulties setting up mySQL for most of this sprint unfortunately so was unable to connect it properly to back end
+Sprint 2 - Fixed front-end to backend connection. Added market indicies to home page, created news page with newsapi
+Sprint 3 - Fixed front-end for multiple pages, did news page and news search

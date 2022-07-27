@@ -1,0 +1,116 @@
+<html>
+<head>
+	<title>Watch Dog</Title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+	<link rel="shortcut icon" href="{{url_for('static',filename='img/logo.png')}}"/>	
+</head>
+<body>
+	<nav class="navbar navbar-main">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="{{ url_for('home') }}"><img src="{{url_for('static',filename='img/watchdog.png')}}" alt="watchdog"  style="height: 50px; margin-right: 15px; border-radius: 5px;"></a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a class="navbar-text-active" href="{{ url_for('home') }}">Home</a></li>
+				<li><a class="navbar-text" href="{{ url_for('watchlist_watch_list') }}">Watch List</a></li>
+				<li><a class="navbar-text" href="{{ url_for('portfolios') }}">Portfolios</a></li>
+				<li><a class="navbar-text" href="{{ url_for('news') }}">News</a></li>
+                <li><a class="navbar-text" href="{{ url_for('settings') }}">Settings</a></li>
+               
+			</ul>
+			<form class="form-inline my-2 my-lg-0" action="{{ url_for('stock_results_stock_search') }}">
+				<input class="form-control mr-sm-2" type="search" placeholder="Search for Stocks" name="stock_search"> 
+				<button class="btn btn-secondary my-2 my-sm-0" type="submit">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+			</form>
+		</div>
+	</nav>
+	<div class="text-center">
+		<button><a href = "{{ url_for('portfolios') }}" class="go-back">&laquo; Go Back</a></button>
+		<h1>{{ name }}</h1>
+	</div>
+    
+    
+
+	<div style="margin:30px;">
+
+			<td>
+				<form action="{{ url_for('portfolios_portfolio_id', portfolio_id = port_id, name = name)}}" method="post" enctype="multipart/form-data" onsubmit="return check(event)">
+                <label for="num">I want to add </label>
+                <input class="form-control num-input" type="number" min="0" id="num" name="num" placeholder="50" required></input>
+                <label for="code"> of </label>
+                <input class="form-control str-input" type="text" id="code" name="code" placeholder="AAPL or CBA.AX (.AX for ASX)" required></input>
+                <label for="price">at a price of $</label>
+                <input class="form-control num-input" type="number" min="0" id="price" name="price" placeholder="50" required></input>
+                <label for="code">to this portfolio.</label>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+			</td>
+        </tr>
+
+    </div>
+        
+        <input type="hidden" id="portfoliostocks" name="variable" value="{{ portfolio2|safe }}" > </input>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <link href="{{url_for('static',filename='css/tabulator.min.css')}}" rel="stylesheet">
+        <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.0.7/dist/js/tabulator.min.js"></script>
+        <div id="stock-table" class="stockinfotable"></div>
+
+    
+        <script type="text/javascript" src="{{url_for('static', filename='port_table.js')}}"></script>
+        
+        <div>
+            <p style="text-align: center">Portfolio total = ${{ total }}</p>
+            <p style="text-align: center">Portfolio total P/L = ${{ pl }}</p>
+        </div>
+		<table width="40%" style="margin: auto">
+            <colgroup>
+                <tr>
+                    <th>Stock Code</th>
+                    <th>Name</th>
+                    <th>Remove Stock</th>
+                </tr>
+
+            {% for stock in portfolio2 %}
+                <tr>
+                    {% if stock['code'][-3:] == ".AX" %}
+						<th><a href = "{{url_for('ASX_stock_summary', symbol = stock['code'][:-3])}}">{{ stock['code'] }}</a></th>
+					{% else %}
+						<th><a href = "{{url_for('NASDAQ_stock_summary', symbol = stock['code'])}}">{{ stock['code'] }}</a></th>
+					{% endif %}
+                    <td>{{ stock["name"] }}</td> 
+
+                    <td><form><button type = "submit" class="btn btn-primary tabled-button" formmethod="post" formaction="{{ url_for('portfolios_portfolio_id', portfolio_id = port_id, delete = 'stock', portfolio = port_id, stock = stock['code'], name = name)}}">Remove</button></form></td>
+                </tr>
+            {% endfor %}
+    
+    </div>
+    
+    <!-- This function ensures that the user enters a distinct name for new stock in portfolio.-->
+    <script>
+            const check = (e) => {
+                var xhr = new XMLHttpRequest();
+                const form = new FormData(e.target);
+                const code = form.get("code");
+                xhr.open("GET", "http://localhost:5000/check_stock?code=" + code, true);
+                xhr.responseType = "JSON";
+                xhr.onload = function(e) 
+                {
+                    var arrOfStrings = JSON.parse(xhr.response);
+                    if (arrOfStrings == "False") 
+                    {
+                        alert("This stock does not seem to exist.")
+                        return false
+                    }
+                }
+                xhr.send();
+                return true
+            };
+        </script>
+	
+</body>
+</html>

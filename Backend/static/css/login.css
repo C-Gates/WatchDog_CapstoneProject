@@ -1,0 +1,136 @@
+@font-face {
+    font-family: cooperH;
+    src: url(fonts/CooperHewitt-Book.otf);
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #17C3B2 !important;
+}
+.user_card {
+    height: 420px;
+    width: 370px;
+    margin-top: auto;
+    margin-bottom: auto;
+    
+    background: #FEF9EF;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    padding-top: 150px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+.logo {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+}
+
+.wd{
+    width: 350px;
+    margin-bottom: 20px;
+    margin-right: 40px;
+    border-radius: 7px;
+}
+
+.container-cp {
+    margin-top: 75px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 15px;
+
+}
+
+.catch-phrase{
+    text-align: center;
+    font-family: cooperH;
+    font-size: 25px;
+    font-style: italic;
+    bottom: 30px;
+    
+}
+
+.form_container {
+    margin-top: 5px;
+    font-family: cooperH;
+}
+.login_btn {
+    width: 100%;
+    background: #1E72B1 !important;
+    color: white !important;
+    font-family: cooperH;
+    font-size: 25px;
+}
+.login_btn:focus {
+    box-shadow: none !important;
+    outline: 0px !important;
+}
+.login_container {
+    padding: 0 2rem;
+}
+.input-group-text {
+    background: #1E72B1 !important;
+    color: white !important;
+    border: 0 !important;
+    border-radius: 0.25rem 0 0 0.25rem !important;
+}
+.input_user,
+.input_pass:focus {
+    box-shadow: none !important;
+    outline: 0px !important;
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+    background-color: #1E72B1 !important;
+}
+
+.links {
+
+    font-family: cooperH;
+}
+
+.lhs{
+    box-sizing: border-box;
+    margin-right: 10%;
+    margin-left: 10%;
+    padding-right: 32px;
+    width: 400px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+
+.rhs{
+    box-sizing: border-box;
+    margin-left: 10%;
+    width: 400px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.ohs {
+    max-width: 1500px;
+    position: relative;
+    margin: auto;
+    top: 15%;
+    padding: 20px 0;
+}
+
+.h-100{
+    width: 350px;
+    margin: auto;
+}
+
+.chs{
+    display: flex;
+    align-items: center; 
+    margin-top: 72px;
+}

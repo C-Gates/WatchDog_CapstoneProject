@@ -1,0 +1,91 @@
+<html>
+<head>
+	<title>Watch Dog</Title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+	<link rel="shortcut icon" href="{{url_for('static',filename='img/logo.png')}}"/>
+	<script src="{{url_for('static', filename='slide.js')}}"></script>
+</head>
+<body onload="closeNav()">
+    <nav class="navbar navbar-main">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="{{ url_for('home') }}"><img src="{{url_for('static',filename='img/watchdog.png')}}" alt="watchdog"  style="height: 50px; margin-right: 15px; border-radius: 5px;"></a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a class="navbar-text-active" href="{{ url_for('home') }}">Home</a></li>
+				<li><a class="navbar-text" href="{{ url_for('watchlist_watch_list') }}">Watch List</a></li>
+				<li><a class="navbar-text" href="{{ url_for('portfolios') }}">Portfolios</a></li>
+				<li><a class="navbar-text" href="{{ url_for('news') }}">News</a></li>
+				<li><a class="navbar-text" href="{{ url_for('settings') }}">Settings</a></li>
+			</ul>
+			<form class="form-inline my-2 my-lg-0" action="{{ url_for('stock_results_stock_search') }}">
+				<input class="form-control mr-sm-2" type="search" placeholder="Search for Stocks" name="stock_search"> 
+				<button class="btn btn-secondary my-2 my-sm-0" type="submit">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+			</form>
+		</div>
+	</nav>
+	<div style="padding: 30px;">
+		<h1 class="page-title">News Page</h1>
+		
+	<div class="col-sm-12">
+		{% for news in context %}
+
+			<div class="col-sm-6 row-news">
+				<form method = "POST">
+					<button class="news button" type="submit" name="{{news[3]}}">
+						<div class="news-hov">
+							<h2 class="title-smol">{{news[0]}}</h2>
+								
+								<img referrerpolicy="no-referrer" class="img-fluid news-img" src="{{news[2]}}"/>
+								
+							<div class="desc-smol">{{news[1]}}</div>
+							<div><p class="cat">{{news[5]}}</p></div>
+						</div>
+					</button>
+				</form>
+			</div>
+
+		{% endfor %}
+	</div>
+	<form method = "POST">
+		<div id="mySidepanel" class="form-check fixed-div sidepanel">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()" style="font-size: 20px; color: #505050;">&times;</a>
+			<div>
+				<input type="checkbox" class="form-check-input" id="technology" name="technology">
+				<label class="form-check-label" for="gridCheck1">Technology</label>
+			</div>
+			<div>
+				<input type="checkbox" class="form-check-input" id="business" name="business">
+				<label class="form-check-label" for="gridCheck1">Business</label>
+			</div>
+			<div>
+				<input type="checkbox" class="form-check-input" id="general" name="general">
+				<label class="form-check-label" for="gridCheck1">General</label>
+			</div>
+			<div>
+				<input type="checkbox" class="form-check-input" id="science" name="science">
+				<label class="form-check-label" for="gridCheck1">Science</label>
+			</div>
+		  	<button type="submit" name="pref" class="btn btn-primary">Submit</button>
+		</div>
+		
+	</form>
+		<button style="font-size: 30px;" id="tog" class="fixed-div openbtn" onclick="openNav()">&#9776;</button>
+	</div>
+
+	
+	<div><p class="cat center" >Powered by NewsAPI</p></div>
+	<div class="news-search">
+	<form class="form-inline my-2 my-lg-0 " method="post">
+		<input class="form-control mr-sm-2 news-type" type="search" placeholder="Search News" name="search"> 
+		<button class="btn btn-secondary my-2 my-sm-0 news-fav" type="submit">
+			<span class="glyphicon glyphicon-search"></span>
+		</button>
+	</form>
+	</div>
+</body>
+</html>

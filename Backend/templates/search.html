@@ -1,0 +1,52 @@
+<html>
+<head>
+	<title>Watch Dog</Title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+	<link rel="shortcut icon" href="{{url_for('static',filename='img/logo.png')}}"/>
+	
+	<script type='application/javascript'>
+	</script>
+</head>
+<body>
+    <nav class="navbar navbar-main">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="{{ url_for('home') }}"><img src="{{url_for('static',filename='img/watchdog.png')}}" alt="watchdog"  style="height: 50px; margin-right: 15px; border-radius: 5px;"></a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a class="navbar-text-active" href="{{ url_for('home') }}">Home</a></li>
+				<li><a class="navbar-text" href="{{ url_for('watchlist_watch_list') }}">Watch List</a></li>
+				<li><a class="navbar-text" href="{{ url_for('portfolios') }}">Portfolios</a></li>
+				<li><a class="navbar-text" href="{{ url_for('news') }}">News</a></li>
+				<li><a class="navbar-text" href="{{ url_for('settings') }}">Settings</a></li>
+			</ul>
+			<form class="form-inline my-2 my-lg-0" action="{{ url_for('stock_results_stock_search') }}">
+				<input class="form-control mr-sm-2" type="search" placeholder="Search for Stocks" name="stock_search">
+				<button class="btn btn-secondary my-2 my-sm-0" type="submit">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+			</form>
+		</div>
+	</nav>
+	<div class="jumbotron text-center">
+		<h1>Search Results</h1>
+	</div>
+	
+	{% for key, val in results.items() %}
+		{% set split_list = key.split(':') %}
+		{% if split_list[0] == "NASDAQ" %}
+			<div class="jumbotron text-center">
+				<a href ="{{ url_for('NASDAQ_stock_summary', symbol = split_list[1]) }}">{{ key }}</h1>
+			</div>
+		{% elif split_list[0] == "ASX" %}
+		<div class="jumbotron text-center">
+			<a href ="{{ url_for('ASX_stock_summary', symbol = split_list[1]) }}">{{ key }}</h1>
+		</div>
+		{% endif %}
+	{% endfor %}
+
+
+</body>
+</html>
